@@ -1,226 +1,186 @@
-/* <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script> */
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const mobileMenu = document.querySelector(".mobile-menu");
 
-// Initialize Lucide icons
-// Lucide.createIcons();
+        mobileMenuBtn.addEventListener("click", function() {
+            mobileMenu.classList.toggle("active");
+            const icon = mobileMenuBtn.querySelector("svg");
+            if (mobileMenu.classList.contains("active")) {
+                icon.innerHTML = '<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+            } else {
+                icon.innerHTML = '<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+            }
+        });
 
-// Mobile menu functionality
-const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-const mobileMenu = document.querySelector(".mobile-menu");
-const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+        // Close mobile menu when clicking on links
+        document.querySelectorAll(".mobile-nav-link").forEach(function(link) {
+            link.addEventListener("click", function() {
+                mobileMenu.classList.remove("active");
+                const icon = mobileMenuBtn.querySelector("svg");
+                icon.innerHTML = '<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+            });
+        });
 
-mobileMenuBtn.addEventListener("click", function() {
-  mobileMenu.classList.toggle("active");
-  const icon = mobileMenuBtn.querySelector("i");
-  if (mobileMenu.classList.contains("active")) {
-    icon.setAttribute("data-lucide", "x");
-  } else {
-    icon.setAttribute("data-lucide", "menu");
-  }
-  Lucide.createIcons();
-});
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener("click", function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute("href"));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                    
+                    // Close mobile menu if open
+                    if (mobileMenu.classList.contains("active")) {
+                        mobileMenu.classList.remove("active");
+                        const icon = mobileMenuBtn.querySelector("svg");
+                        icon.innerHTML = '<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+                    }
+                }
+            });
+        });
 
-// Close mobile menu when clicking on links
-mobileNavLinks.forEach(function(link) {
-  link.addEventListener("click", function() {
-    mobileMenu.classList.remove("active");
-    const icon = mobileMenuBtn.querySelector("i");
-    icon.setAttribute("data-lucide", "menu");
-    Lucide.createIcons();
-  });
-});
+        // Animate skill bars when they come into view
+        const skillObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    const skillFills = entry.target.querySelectorAll(".skill-fill");
+                    skillFills.forEach(function(fill) {
+                        const width = fill.getAttribute("data-width");
+                        setTimeout(function() {
+                            fill.style.width = width + "%";
+                        }, 200);
+                    });
+                }
+            });
+        }, { threshold: 0.5, rootMargin: "0px 0px -100px 0px" });
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute("href"));
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-  });
-});
+        // Observe skills section
+        const skillsSection = document.querySelector(".skills-progress");
+        if (skillsSection) {
+            skillObserver.observe(skillsSection);
+        }
 
-// Advanced scroll-based background animation
-var scrollY = 0;
-var lastScrollY = 0;
-var scrollDirection = "down";
+        /* // Add scroll-based navbar background
+        const navbar = document.querySelector(".floating-nav");
+        window.addEventListener("scroll", function() {
+            if (window.scrollY > 100) {
+                navbar.style.background = "rgba(255, 255, 255, 0.98)";
+                navbar.style.boxShadow = "0 10px 40px rgba(0, 0, 0, 0.15)";
+            } else {
+                navbar.style.background = "rgba(255, 255, 255, 0.95)";
+                navbar.style.boxShadow = "0 10px 40px rgba(0, 0, 0, 0.1)";
+            }
+        }); */
 
-var backgroundElements = document.querySelectorAll(".bg-element");
+        // Form submission handler
+        const contactForm = document.querySelector(".contact-form");
+        if (contactForm) {
+            contactForm.addEventListener("submit", function(e) {
+                e.preventDefault();
 
-function updateBackgroundAnimation() {
-  scrollY = window.scrollY;
+                // Get form data
+                const formData = new FormData(contactForm);
+                const data = Object.fromEntries(formData);
 
-  // Determine scroll direction
-  if (scrollY > lastScrollY) {
-    scrollDirection = "down";
-  } else {
-    scrollDirection = "up";
-  }
-  lastScrollY = scrollY;
+                // Simple validation
+                if (!data.email || !data.message) {
+                    alert("Please fill in all required fields.");
+                    return;
+                }
 
-  // Calculate scroll progress
-  var scrollProgress = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+                // Simulate form submission
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
 
-  // Animate each background element
-  backgroundElements.forEach(function(element, index) {
-    var speed = (index + 1) * 0.3;
-    var direction = scrollDirection === "down" ? 1 : -1;
-    var rotation = scrollProgress * 180 * direction * (index + 1);
-    var scale = 1 + scrollProgress * 0.5;
-    var xMovement = Math.sin(scrollProgress * Math.PI * 4 + index) * 100;
-    var yMovement = scrollY * speed * direction;
+                submitBtn.innerHTML = 'Sending...';
+                submitBtn.disabled = true;
 
-    element.style.transform = 
-      "translateY(" + yMovement + "px) " +
-      "translateX(" + xMovement + "px) " +
-      "rotate(" + rotation + "deg) " +
-      "scale(" + scale + ")";
-    element.style.opacity = (0.3 + Math.sin(scrollProgress * Math.PI * 2 + index) * 0.4).toString();
-  });
-}
+                setTimeout(function() {
+                    submitBtn.innerHTML = 'Message Sent!';
+                    submitBtn.disabled = false;
+                    
+                    setTimeout(function() {
+                        submitBtn.innerHTML = originalText;
+                        contactForm.reset();
+                    }, 2000);
+                }, 1500);
+            });
+        }
 
-// Throttled scroll event listener
-var ticking = false;
-window.addEventListener("scroll", function() {
-  if (!ticking) {
-    requestAnimationFrame(function() {
-      updateBackgroundAnimation();
-      ticking = false;
-    });
-    ticking = true;
-  }
-});
+        // Lazy load images
+        document.addEventListener("DOMContentLoaded", function() {
+            const lazyImages = document.querySelectorAll(".lazy-load");
+            
+            const lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const lazyImage = entry.target;
+                        lazyImage.src = lazyImage.dataset.src;
+                        lazyImage.classList.add("loaded");
+                        lazyImageObserver.unobserve(lazyImage);
+                    }
+                });
+            });
 
-// Animate skill bars when they come into view
-var observerOptions = {
-  threshold: 0.5,
-  rootMargin: "0px 0px -100px 0px"
-};
+            lazyImages.forEach(function(lazyImage) {
+                lazyImageObserver.observe(lazyImage);
+            });
+        });
 
-var skillObserver = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (entry.isIntersecting) {
-      var skillFills = entry.target.querySelectorAll(".skill-fill");
-      skillFills.forEach(function(fill) {
-        var width = fill.getAttribute("data-width");
-        setTimeout(function() {
-          fill.style.width = width + "%";
-        }, 200);
-      });
-    }
-  });
-}, observerOptions);
+        // Theme toggle functionality
+        const themeToggle = document.querySelector(".theme-toggle");
+        const themeIconLight = document.querySelector(".theme-icon-light");
+        const themeIconDark = document.querySelector(".theme-icon-dark");
+        
+        // Check for saved theme preference or respect OS preference
+        const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        
+        if (savedTheme === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
+            themeIconLight.style.display = "none";
+            themeIconDark.style.display = "block";
+        } else {
+            document.documentElement.setAttribute("data-theme", "light");
+            themeIconLight.style.display = "block";
+            themeIconDark.style.display = "none";
+        }
+        
+        themeToggle.addEventListener("click", function() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "light" ? "dark" : "light";
+            
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            
+            if (newTheme === "dark") {
+                themeIconLight.style.display = "none";
+                themeIconDark.style.display = "block";
+            } else {
+                themeIconLight.style.display = "block";
+                themeIconDark.style.display = "none";
+            }
+        });
 
-// Observe skills section
-var skillsSection = document.querySelector(".skills-progress");
-if (skillsSection) {
-  skillObserver.observe(skillsSection);
-}
+        // Initialize animations on page load
+        window.addEventListener("load", function() {
+            // Add entrance animations to cards
+            const cards = document.querySelectorAll(".card, .project-card, .service-card, .stat-card");
+            cards.forEach(function(card, index) {
+                card.style.animationDelay = (index * 0.1) + "s";
+                card.classList.add("animate-fade-in");
+            });
+            
+            // Add CSS class for fade-in animation
+            const style = document.createElement("style");
+            style.textContent = 
+                ".animate-fade-in {" +
+                "    animation: fadeInUp 0.8s ease-out forwards;" +
+                "    opacity: 0;" +
+                "}";
+            document.head.appendChild(style);
+        });
 
-// Add scroll-based navbar background
-var navbar = document.querySelector(".floating-nav");
-window.addEventListener("scroll", function() {
-  if (window.scrollY > 100) {
-    navbar.style.background = "rgba(255, 255, 255, 0.98)";
-    navbar.style.boxShadow = "0 10px 40px rgba(0, 0, 0, 0.15)";
-  } else {
-    navbar.style.background = "rgba(255, 255, 255, 0.95)";
-    navbar.style.boxShadow = "0 10px 40px rgba(0, 0, 0, 0.1)";
-  }
-});
-
-// Form submission handler
-var contactForm = document.querySelector(".contact-form");
-if (contactForm) {
-  contactForm.addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    // Get form data
-    var formData = new FormData(contactForm);
-    var data = Object.fromEntries(formData);
-
-    // Simple validation
-    if (!data.email || !data.message) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    // Simulate form submission
-    var submitBtn = contactForm.querySelector('button[type="submit"]');
-    var originalText = submitBtn.innerHTML;
-
-    submitBtn.innerHTML = '<i data-lucide="loader-2"></i> Sending...';
-    submitBtn.disabled = true;
-    Lucide.createIcons();
-
-    setTimeout(function() {
-      submitBtn.innerHTML = '<i data-lucide="check"></i> Message Sent!';
-      Lucide.createIcons();
-
-      setTimeout(function() {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        contactForm.reset();
-        Lucide.createIcons();
-      }, 2000);
-    }, 1500);
-  });
-}
-
-// Add loading animation for project images
-var projectImages = document.querySelectorAll(".project-image img");
-projectImages.forEach(function(img) {
-  img.addEventListener("load", function() {
-    img.style.opacity = "1";
-  });
-});
-
-// Initialize animations on page load
-window.addEventListener("load", function() {
-  // Trigger initial background animation
-  updateBackgroundAnimation();
-
-  // Add entrance animations to cards
-  var cards = document.querySelectorAll(".card, .project-card, .service-card, .stat-card");
-  cards.forEach(function(card, index) {
-    card.style.animationDelay = (index * 0.1) + "s";
-    card.classList.add("animate-fade-in");
-  });
-});
-
-// Add CSS class for fade-in animation
-var style = document.createElement("style");
-style.textContent = 
-    ".animate-fade-in {" +
-    "    animation: fadeInUp 0.8s ease-out forwards;" +
-    "    opacity: 0;" +
-    "}";
-document.head.appendChild(style);
-
-// Parallax effect for hero section
-var heroSection = document.querySelector(".hero-section");
-window.addEventListener("scroll", function() {
-  var scrolled = window.pageYOffset;
-  var rate = scrolled * -0.5;
-
-  if (heroSection) {
-    heroSection.style.transform = "translateY(" + rate + "px)";
-  }
-});
-
-// Add hover effects to navigation links
-var navLinks = document.querySelectorAll(".nav-link");
-navLinks.forEach(function(link) {
-  link.addEventListener("mouseenter", function() {
-    link.style.transform = "translateY(-2px)";
-  });
-
-  link.addEventListener("mouseleave", function() {
-    link.style.transform = "translateY(0)";
-  });
-});
-
-console.log("🚀 Abedalrahman's portfolio loaded successfully!");
+        console.log("🚀 Abedalrahman's portfolio loaded successfully!");
