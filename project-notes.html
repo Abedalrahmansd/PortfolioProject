@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes Application - Abedalrahman's Project</title>
+    <title>Notes | Abedalrahman</title>
     <meta name="description" content="Detailed view of the Notes Application project by Abedalrahman. A Flutter app supporting online and offline modes with customizations.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -489,6 +489,14 @@
             color: white;
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Floating Navbar and footer*/
+        .floating-nav, .footer{
+            --primary: var(--project-primary);
+            --accent: var(--project-accent); 
+            --gradient-start: var(--project-primary);
+            --gradient-end: var(--project-accent);
         }
 
         /* Animations */
