@@ -1,0 +1,16 @@
+# Copy into every app repo. Keeps secrets and junk out of images.
+.git
+.github
+node_modules
+vendor
+.env
+.env.*
+*.db
+*.sqlite
+*.sqlite3
+data/
+build/
+.dart_tool/
+__pycache__/
+*.log
+README.md
