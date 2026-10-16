@@ -14,3 +14,6 @@ build/
 __pycache__/
 *.log
 README.md
+# Gallery tooling: kept in the repo, not served
+scripts/
+manifest-builder.html

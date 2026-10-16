@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=3">
     
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
@@ -33,14 +33,14 @@
             <!-- <a href="#contact" class="nav-link">Contact</a> -->
         </div>
         <div class="nav-buttons">
-            <button class="btn btn-outline">
+            <a href="files/Abedalrahman_CV.pdf" download class="btn btn-outline">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 CV
-            </button>
+            </a>
             <a href="#contact" class="btn btn-primary">Contact</a>
         </div>
         <button class="mobile-menu-btn" aria-label="Toggle menu">
@@ -58,15 +58,15 @@
                 <a href="#services" class="mobile-nav-link">Services</a>
                 <!-- <a href="#contact" class="mobile-nav-link">Contact</a> -->
                 <div class="mobile-buttons">
-                    <button class="btn btn-outline">
+                    <a href="files/Abedalrahman_CV.pdf" download class="btn btn-outline">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         Download CV
-                    </button>
-                    <button class="btn btn-primary">Contact Me</button>
+                    </a>
+                    <a href="#contact" class="btn btn-primary">Contact Me</a>
                 </div>
             </div>
         </div>
@@ -74,21 +74,30 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero-section">
+        <div class="aurora-bg" aria-hidden="true">
+            <span class="aurora-blob aurora-blob-1"></span>
+            <span class="aurora-blob aurora-blob-2"></span>
+            <span class="aurora-blob aurora-blob-3"></span>
+            <span class="aurora-grid"></span>
+            <div class="code-chip code-chip-1"><span class="code-chip-dot"></span>class HomeScreen</div>
+            <div class="code-chip code-chip-2">&lt;Widget build&gt;</div>
+            <div class="code-chip code-chip-3"><span class="code-chip-dot"></span>setState(() {})</div>
+            <div class="code-chip code-chip-4">GetX&lt;Controller&gt;</div>
+        </div>
         <div class="hero-content">
             <div class="hero-avatar">
-                <!-- <img src="images/professional-developer-portrait.png" alt="Abedalrahman" class="avatar-img" width="140" height="140"> -->
-                 <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" class="avatar-img">
-  <defs>
-    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#15803d" />
-      <stop offset="100%" stop-color="#84cc16" />
-    </linearGradient>
-  </defs>
-  <circle cx="70" cy="70" r="65" fill="url(#gradient)" />
-  <path d="M70 40 C55 40, 40 55, 40 70 C40 85, 55 100, 70 100 C85 100, 100 85, 100 70 C100 55, 85 40, 70 40 Z" fill="#f0fdf4"/>
-  <circle cx="70" cy="60" r="15" fill="#1e293b"/>
-  <path d="M45 95 C45 80, 55 70, 70 70 C85 70, 95 80, 95 95" fill="#1e293b"/>
-</svg>
+                <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" class="avatar-illustration">
+                    <defs>
+                        <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#15803d" />
+                            <stop offset="100%" stop-color="#84cc16" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="70" cy="70" r="65" fill="url(#avatarGrad)"/>
+                    <path d="M52 50 L32 70 L52 90" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M88 50 L108 70 L88 90" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M76 40 L64 100" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.85"/>
+                </svg>
                 <div class="avatar-status"></div>
             </div>
             
@@ -98,7 +107,7 @@
             </h1>
             
             <div class="hero-subtitle">
-                <h2>- Full-Stack Developer -</h2>
+                <h2>- <span class="typewriter" id="typewriter-role">Flutter Developer</span><span class="typewriter-cursor">|</span> -</h2>
                 <div class="hero-tags">
                     <div class="tag">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -130,14 +139,14 @@
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </a>
-                <button class="btn btn-outline btn-large">
+                <a href="files/Abedalrahman_CV.pdf" download class="btn btn-outline btn-large">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     Download CV
-                </button>
+                </a>
             </div>
             <!-- remove for the glitch --> <!--  
             <div class="hero-stats">
@@ -165,6 +174,30 @@
          -->  <!-- remove for the glitch -->
        
     </section>
+
+    <!-- Tech Marquee -->
+    <div class="marquee-band">
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track marquee-track-a">
+                <span class="marquee-item"><span class="marquee-dot"></span>Flutter</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Dart</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>GetX</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Clean Architecture</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Node.js</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Laravel</span>
+            </div>
+        </div>
+        <div class="marquee marquee-reverse" aria-hidden="true">
+            <div class="marquee-track marquee-track-b">
+                <span class="marquee-item"><span class="marquee-dot"></span>MySQL</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Supabase</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Socket.io</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Firebase</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>Arduino</span>
+                <span class="marquee-item"><span class="marquee-dot"></span>ESP32</span>
+            </div>
+        </div>
+    </div>
 
     <!-- About Section -->
     <section id="about" class="about-section">
@@ -296,45 +329,50 @@
                     </div>
                      -->                
                     <div class="skills-progress">
-                        <div class="skill-item">
-                            <div class="skill-header">
-                                <span>Flutter Development</span>
-                                <span class="skill-percentage">95%</span>
+                        <div class="skill-tier">
+                            <div class="skill-tier-label">
+                                <span class="tier-dot tier-core"></span>
+                                Core
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="95"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-header">
-                                <span>UI/UX Design</span>
-                                <span class="skill-percentage">88%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="88"></div>
+                            <div class="skill-tier-items">
+                                <span class="skill-tag">Flutter</span>
+                                <span class="skill-tag">Dart</span>
+                                <span class="skill-tag">GetX</span>
+                                <span class="skill-tag">Clean Architecture</span>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <div class="skill-header">
-                                <span>Firebase Integration</span>
-                                <span class="skill-percentage">80%</span>
+                        <div class="skill-tier">
+                            <div class="skill-tier-label">
+                                <span class="tier-dot tier-proficient"></span>
+                                Backend &amp; Data
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="80"></div>
+                            <div class="skill-tier-items">
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">Laravel</span>
+                                <span class="skill-tag">MySQL</span>
+                                <span class="skill-tag">Supabase</span>
+                                <span class="skill-tag">REST APIs</span>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <div class="skill-header">
-                                <span>API Development</span>
-                                <span class="skill-percentage">85%</span>
+                        <div class="skill-tier">
+                            <div class="skill-tier-label">
+                                <span class="tier-dot tier-working"></span>
+                                Working knowledge
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="85"></div>
+                            <div class="skill-tier-items">
+                                <span class="skill-tag">Firebase</span>
+                                <span class="skill-tag">Socket.io</span>
+                                <span class="skill-tag">Arduino / ESP32</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="section-wave" aria-hidden="true">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,32 C240,80 480,0 720,24 C960,48 1200,72 1440,24 L1440,80 L0,80 Z" fill="var(--wave-fill-projects)"></path>
+            </svg>
         </div>
     </section>
 
@@ -348,11 +386,28 @@
             
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-image">
-                        <img data-src="images/Profile-Image.jpg" src="images/placeholder.svg" alt="E-Commerce App" width="400" height="250" class="lazy-load">
+                    <div class="project-image project-image-mock">
+                        <div class="browser-mock">
+                            <div class="browser-mock-bar">
+                                <span></span><span></span><span></span>
+                                <div class="browser-mock-url">abedalrahman.bilalsaad.com</div>
+                            </div>
+                            <div class="browser-mock-body">
+                                <div class="browser-mock-nav"></div>
+                                <div class="browser-mock-hero">
+                                    <div class="browser-mock-line w-60"></div>
+                                    <div class="browser-mock-line w-40"></div>
+                                </div>
+                                <div class="browser-mock-cards">
+                                    <div class="browser-mock-card"></div>
+                                    <div class="browser-mock-card"></div>
+                                    <div class="browser-mock-card"></div>
+                                </div>
+                            </div>
+                        </div>
                          <div class="project-overlay">
-                            <a href="#home" class="view-project-btn">
-                                View Project
+                            <a href="https://github.com/Abedalrahmansd/PortfolioProject" target="_blank" rel="noopener" class="view-project-btn">
+                                View Source
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -362,7 +417,7 @@
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">This Website</h3>
-                            <a href="#" aria-label="View project">
+                            <a href="https://github.com/Abedalrahmansd/PortfolioProject" target="_blank" rel="noopener" aria-label="View source on GitHub">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="project-link">
                                     <path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -370,9 +425,9 @@
                                 </svg>
                             </a>
                         </div>
-                        <p class="project-description">A personal portfolio website showcasing my skills and projects.</p>
+                        <p class="project-description">This portfolio, hand-built with no frontend framework — theming, lazy-loaded images, and scroll animations from scratch.</p>
                         <div class="project-tech">
-                            <span class="tech-tag">HTMl</span>
+                            <span class="tech-tag">HTML</span>
                             <span class="tech-tag">CSS</span>
                             <span class="tech-tag">JavaScript</span>
                         </div>
@@ -438,11 +493,16 @@
                         <div class="project-tech">
                             <span class="tech-tag">Flutter</span>
                             <span class="tech-tag">GetX</span>
-                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">Node.js</span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="section-wave" aria-hidden="true">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,48 C240,0 480,72 720,40 C960,8 1200,56 1440,32 L1440,80 L0,80 Z" fill="var(--wave-fill-services)"></path>
+            </svg>
         </div>
     </section>
 
@@ -506,6 +566,11 @@
                 </div>
             </div>
         </div>
+        <div class="section-wave" aria-hidden="true">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,24 C240,72 480,8 720,40 C960,72 1200,16 1440,48 L1440,80 L0,80 Z" fill="var(--wave-fill-contact)"></path>
+            </svg>
+        </div>
     </section>
 
     <!-- Contact Section -->
@@ -532,7 +597,7 @@
                                 </div>
                                 <div class="contact-details">
                                     <div class="contact-label">Email</div>
-                                    <div class="contact-value">abedalrahman@example.com</div>
+                                    <div class="contact-value"><a href="mailto:aboudysaad@hotmail.com">aboudysaad@hotmail.com</a></div>
                                 </div>
                             </div>
                             <div class="contact-item">
@@ -550,7 +615,7 @@
                                 </div>
                                 <div class="contact-details">
                                     <div class="contact-label">Phone</div>
-                                    <div class="contact-value">+961 71 068 431</div>
+                                    <div class="contact-value"><a href="tel:+96171068431">+961 71 068 431</a></div>
                                 </div>
                             </div>
                             <div class="contact-item">
@@ -647,23 +712,29 @@
     </footer>
 
     <!-- Theme Toggle -->
-    <button class="theme-toggle" aria-label="Toggle theme">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="theme-icon-light">
-            <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 1V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 21V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <div class="fab-stack">
+        <svg class="progress-ring" width="58" height="58" viewBox="0 0 58 58" aria-hidden="true">
+            <circle class="progress-ring-track" cx="29" cy="29" r="20" fill="none" stroke-width="2"/>
+            <circle class="progress-ring-fill" cx="29" cy="29" r="20" fill="none" stroke-width="2"/>
         </svg>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="theme-icon-dark" style="display: none;">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
+        <button class="theme-toggle" aria-label="Toggle theme">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="theme-icon-light">
+                <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 1V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 21V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="theme-icon-dark" style="display: none;">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
 
-<script src="script.js"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>

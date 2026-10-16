@@ -3,6 +3,8 @@
             --primary: #15803d;
             --primary-dark: #0f6e32;
             --accent: #84cc16;
+            --glow: #2dd4bf;
+            --glow-soft: #5eead4;
             --background: #ffffff;
             --foreground: #0f172a;
             --muted: #f8fafc;
@@ -24,14 +26,14 @@
         }
 
         :root[data-theme="dark"] {
-                --background: #0f172a;
+                --background: #070d16;
                 --foreground: #f1f5f9;
-                --muted: #1e293b;
+                --muted: #131f30;
                 --muted-foreground: #94a3b8;
-                --card: #1e293b;
+                --card: #101a29;
                 --card-foreground: #f1f5f9;
-                --border: #334155;
-                --input: #334155;
+                --border: #263548;
+                --input: #263548;
             }
         
 
@@ -44,6 +46,8 @@
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 5rem;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         body {
@@ -152,23 +156,17 @@
             top: 100%;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--background);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 1rem;
             margin-top: 0.5rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
             z-index: 1000;
         }
 
-        [data-theme="dark"] {
-            .mobile-menu {
-                background: rgba(30, 41, 59, 0.95);
-                border-color: rgba(255, 255, 255, 0.1);
-            }
-        }
-
+        
         .mobile-menu-content {
             display: flex;
             flex-direction: column;
@@ -275,15 +273,19 @@
             width: 140px;
             height: 140px;
             margin: 0 auto 2rem;
+            border-radius: 50%;
+            box-shadow: 0 14px 30px rgba(21, 128, 61, 0.35);
         }
 
-        .avatar-img {
+        .avatar-illustration {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(21, 128, 61, 0.2);
-            animation: glow 2s ease-in-out infinite alternate;
+            animation: glow 2.4s ease-in-out infinite alternate;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .avatar-illustration { animation: none; }
         }
 
         .avatar-status {
@@ -639,6 +641,7 @@
         .projects-section {
             padding: var(--section-padding);
             background: var(--background);
+            position: relative;
         }
 
         .projects-grid {
@@ -653,10 +656,11 @@
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             transition: var(--transition);
+            position: relative;
         }
 
         .project-card:hover {
-            transform: translateY(-10px) !important;
+            transform: translateY(-10px);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
         }
 
@@ -762,6 +766,7 @@
         .services-section {
             padding: var(--section-padding);
             background: var(--muted);
+            position: relative;
         }
 
         .services-grid {
@@ -780,28 +785,50 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
         .service-card:hover {
-            transform: translateY(-5px)!important;
+            transform: translateY(-5px);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .service-icon {
-            width: 60px;
-            height: 60px;
+            width: 64px;
+            height: 64px;
             margin: 0 auto 1.5rem;
-            background: rgba(21, 128, 61, 0.1);
-            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(21, 128, 61, 0.12), rgba(132, 204, 22, 0.12));
+            border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
+            transition: var(--transition), border-radius 0.5s ease;
+            position: relative;
+        }
+
+        .service-icon::before {
+            content: "";
+            position: absolute;
+            inset: -7px;
+            border-radius: inherit;
+            border: 1.5px dashed var(--primary);
+            opacity: 0.3;
+            animation: iconRingSpin 14s linear infinite;
+        }
+
+        @keyframes iconRingSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .service-icon::before { animation: none; }
         }
 
         .service-card:hover .service-icon {
-            background: rgba(21, 128, 61, 0.2);
-            transform: scale(1.1);
+            background: linear-gradient(135deg, rgba(21, 128, 61, 0.22), rgba(132, 204, 22, 0.22));
+            transform: scale(1.1) rotate(4deg);
+            border-radius: 58% 42% 35% 65% / 55% 60% 40% 45%;
         }
 
         .service-icon i {
@@ -901,6 +928,17 @@
 
         .contact-value {
             color: var(--muted-foreground);
+        }
+
+        .contact-value a {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .contact-value a:hover {
+            color: var(--primary);
+            text-decoration: underline;
         }
 
         .social-links {
@@ -1105,6 +1143,8 @@
                 top: 0.5rem;
                 left: 1rem;
                 right: 1rem;
+                width: auto;
+                max-width: none;
                 transform: none;
                 border-radius: 1rem;
                 padding: 0.75rem 1rem;
@@ -1246,4 +1286,972 @@
             text-align: right;
             color: #7f8c8d;
             font-style: italic;
+        }
+
+        /* ==========================================================
+           Scroll reveal (replaces the old "animate everything on load"
+           approach — elements animate in as they actually enter view)
+           ========================================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1;
+                transform: none !important;
+            }
+        }
+
+        /* ==========================================================
+           Card tilt (subtle 3D pointer-follow, desktop only)
+           ========================================================== */
+        @media (hover: hover) and (pointer: fine) {
+            .project-card,
+            .service-card {
+                transform-style: preserve-3d;
+                perspective: 900px;
+            }
+
+            .project-card.tilt-active,
+            .service-card.tilt-active {
+                transition: box-shadow 0.3s ease;
+            }
+        }
+
+        /* ==========================================================
+           Button shine sweep
+           ========================================================== */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.6s ease;
+        }
+
+        .btn-primary:hover::after {
+            left: 130%;
+        }
+
+        /* ==========================================================
+           "This Website" project card — CSS browser mockup
+           (replaces the broken placeholder screenshot)
+           ========================================================== */
+        .project-image-mock {
+            background: linear-gradient(135deg, rgba(21, 128, 61, 0.08), rgba(132, 204, 22, 0.12));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+        }
+
+        .browser-mock {
+            width: 100%;
+            height: 100%;
+            background: var(--card);
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .browser-mock {
+            transform: scale(1.04) translateY(-2px);
+        }
+
+        .browser-mock-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.6rem 0.75rem;
+            background: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .browser-mock-bar span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .browser-mock-bar span:nth-child(1) { background: #f87171; }
+        .browser-mock-bar span:nth-child(2) { background: #facc15; }
+        .browser-mock-bar span:nth-child(3) { background: #4ade80; }
+
+        .browser-mock-url {
+            margin-left: 0.75rem;
+            font-size: 0.65rem;
+            color: var(--muted-foreground);
+            background: var(--background);
+            border-radius: 1rem;
+            padding: 0.15rem 0.6rem;
+            font-family: var(--font-body);
+        }
+
+        .browser-mock-body {
+            flex: 1;
+            padding: 0.9rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .browser-mock-nav {
+            width: 40%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            opacity: 0.7;
+        }
+
+        .browser-mock-hero {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+        }
+
+        .browser-mock-line {
+            height: 10px;
+            border-radius: 4px;
+            background: var(--border);
+        }
+
+        .browser-mock-line.w-60 { width: 60%; }
+        .browser-mock-line.w-40 { width: 40%; }
+
+        .browser-mock-cards {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+        }
+
+        .browser-mock-card {
+            flex: 1;
+            height: 34px;
+            border-radius: 6px;
+            background: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        [data-theme="dark"] .browser-mock-line,
+        [data-theme="dark"] .browser-mock-card {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* ==========================================================
+           Skill tiers (replaces fabricated percentage bars)
+           ========================================================== */
+        .skill-tier {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .skill-tier-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--foreground);
+        }
+
+        .tier-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .tier-dot.tier-core { background: var(--primary); }
+        .tier-dot.tier-proficient { background: var(--accent); }
+        .tier-dot.tier-working { background: var(--muted-foreground); }
+
+        .skill-tier-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ============================================================
+           Aurora hero background — the one signature page-load moment
+           ============================================================ */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .aurora-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.5;
+            will-change: transform;
+        }
+
+        .aurora-blob-1 {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+            top: -140px;
+            left: -100px;
+            animation: auroraDrift1 18s ease-in-out infinite;
+        }
+
+        .aurora-blob-2 {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, var(--accent), transparent 70%);
+            top: 30%;
+            right: -120px;
+            animation: auroraDrift2 22s ease-in-out infinite;
+        }
+
+        .aurora-blob-3 {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, var(--primary-dark), transparent 70%);
+            bottom: -140px;
+            left: 30%;
+            animation: auroraDrift3 26s ease-in-out infinite;
+        }
+
+        .aurora-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: 0.4;
+            -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 72%);
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 72%);
+        }
+
+        [data-theme="dark"] .aurora-blob {
+            opacity: 0.3;
+        }
+
+        @keyframes auroraDrift1 {
+            0%, 100% { transform: translateY(var(--parallax, 0px)) translate(0, 0) scale(1); }
+            50% { transform: translateY(var(--parallax, 0px)) translate(60px, 40px) scale(1.1); }
+        }
+
+        @keyframes auroraDrift2 {
+            0%, 100% { transform: translateY(var(--parallax, 0px)) translate(0, 0) scale(1); }
+            50% { transform: translateY(var(--parallax, 0px)) translate(-50px, 30px) scale(1.15); }
+        }
+
+        @keyframes auroraDrift3 {
+            0%, 100% { transform: translateY(var(--parallax, 0px)) translate(0, 0) scale(1); }
+            50% { transform: translateY(var(--parallax, 0px)) translate(40px, -30px) scale(1.05); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .aurora-blob {
+                animation: none;
+            }
+        }
+
+        /* Hero headline — letters assemble on load */
+        .title-gradient {
+            display: inline-block;
+            perspective: 400px;
+        }
+
+        .letter-in {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(0.6em) rotateX(-40deg);
+            transform-origin: bottom;
+            animation: letterIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes letterIn {
+            to { opacity: 1; transform: translateY(0) rotateX(0deg); }
+        }
+
+        /* ============================================================
+           Ambient cursor glow — a soft light that follows the pointer
+           ============================================================ */
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 420px;
+            height: 420px;
+            margin-left: -210px;
+            margin-top: -210px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+            background: radial-gradient(circle, rgba(132, 204, 22, 0.13), transparent 70%);
+        }
+
+        [data-theme="dark"] .cursor-glow {
+            background: radial-gradient(circle, rgba(132, 204, 22, 0.09), transparent 70%);
+        }
+
+        /* ============================================================
+           Nav: scrolled state + scrollspy active link
+           ============================================================ */
+        .floating-nav.nav-scrolled {
+            padding: 0.55rem 1.5rem;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* ============================================================
+           Tech showcase band — two rows, scrolling opposite ways
+           ============================================================ */
+        .marquee-band {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, var(--muted), var(--background));
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 1.1rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .marquee {
+            overflow: hidden;
+            position: relative;
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+            mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            gap: 1rem;
+            animation: marqueeScroll 32s linear infinite;
+        }
+
+        .marquee-track-b {
+            animation-name: marqueeScrollReverse;
+            animation-duration: 38s;
+        }
+
+        .marquee-band:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        /* Static fallback used when motion is reduced — no animation,
+           no duplicated content, wraps neatly instead of scrolling. */
+        .marquee-static .marquee {
+            overflow: visible;
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+
+        .marquee-static .marquee-track {
+            animation: none;
+            width: auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .marquee-item {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--foreground);
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .marquee-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(132, 204, 22, 0.18);
+        }
+
+        .marquee-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--glow));
+            flex-shrink: 0;
+        }
+
+        @keyframes marqueeScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        @keyframes marqueeScrollReverse {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track { animation: none; }
+        }
+
+        @media (max-width: 560px) {
+            .marquee-item { font-size: 0.78rem; padding: 0.4rem 0.8rem; }
+        }
+
+        /* ============================================================
+           Directional reveal variants
+           ============================================================ */
+        .reveal-left { transform: translateX(-32px); }
+        .reveal-left.in-view { transform: translateX(0); }
+        .reveal-right { transform: translateX(32px); }
+        .reveal-right.in-view { transform: translateX(0); }
+        .reveal-up { transform: translateY(28px); }
+        .reveal-up.in-view { transform: translateY(0); }
+
+        /* ============================================================
+           Spotlight glow that follows the cursor on project/service cards
+           ============================================================ */
+        @media (hover: hover) and (pointer: fine) {
+            .project-card::before,
+            .service-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(132, 204, 22, 0.16), transparent 60%);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            .project-card:hover::before,
+            .service-card:hover::before {
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+           Fab stack — theme toggle wrapped in a scroll-progress ring
+           ============================================================ */
+        .fab-stack {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 58px;
+            height: 58px;
+            z-index: 100;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            bottom: auto;
+            right: auto;
+        }
+
+        .progress-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotate(-90deg);
+            pointer-events: none;
+        }
+
+        .progress-ring-track {
+            stroke: var(--border);
+        }
+
+        .progress-ring-fill {
+            stroke: var(--primary);
+            stroke-linecap: round;
+            stroke-dasharray: 125.66;
+            stroke-dashoffset: 125.66;
+            transition: stroke-dashoffset 0.15s linear;
+        }
+
+        /* Magnetic buttons need a spring-like return */
+        .btn-primary,
+        .btn-outline {
+            transition: var(--transition), transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Custom scrollbar rules live further down, gated to
+           pointer-fine/hover devices only — see near end of file. */
+
+        /* ============================================================
+           Dark mode depth — subtle vignette behind everything
+           ============================================================ */
+        [data-theme="dark"] body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(45, 212, 191, 0.08), transparent 60%),
+                radial-gradient(ellipse 60% 40% at 100% 100%, rgba(132, 204, 22, 0.06), transparent 60%);
+        }
+
+        /* ============================================================
+           Fab stack — small-screen sizing so it clears content
+           ============================================================ */
+        @media (max-width: 480px) {
+            .fab-stack {
+                width: 48px;
+                height: 48px;
+                bottom: 1.1rem;
+                right: 1.1rem;
+            }
+
+            .theme-toggle {
+                width: 40px;
+                height: 40px;
+                top: 4px;
+                left: 4px;
+            }
+
+            .progress-ring {
+                width: 48px;
+                height: 48px;
+            }
+
+            .progress-ring-track,
+            .progress-ring-fill {
+                cx: 24;
+                cy: 24;
+                r: 17;
+            }
+
+            .hero-section {
+                padding-bottom: 4.5rem;
+            }
+        }
+
+        /* ============================================================
+           Cursor companion — a small orbiting "</>" glyph that trails
+           the pointer, plus a ring that grows over interactive elements
+           ============================================================ */
+        .cursor-companion {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .cursor-companion-glow {
+            position: absolute;
+            top: -90px;
+            left: -90px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.16), transparent 70%);
+            filter: blur(2px);
+        }
+
+        .cursor-ring {
+            position: absolute;
+            top: -16px;
+            left: -16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1.5px solid var(--primary);
+            opacity: 0.6;
+            transition: width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        top 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        left 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.25s ease,
+                        border-color 0.25s ease,
+                        background 0.25s ease;
+            animation: ringBreathe 3.2s ease-in-out infinite;
+        }
+
+        .cursor-orbit {
+            position: absolute;
+            top: -24px;
+            left: -24px;
+            width: 48px;
+            height: 48px;
+            animation: cursorOrbit 5s linear infinite;
+            transition: animation-duration 0.25s ease;
+        }
+
+        .cursor-orbit-glyph {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: cursorOrbitCounter 5s linear infinite;
+            font-family: var(--font-heading);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--glow);
+            letter-spacing: -0.5px;
+        }
+
+        .cursor-companion.hovering .cursor-ring {
+            width: 52px;
+            height: 52px;
+            top: -26px;
+            left: -26px;
+            border-color: var(--accent);
+            background: rgba(132, 204, 22, 0.1);
+            opacity: 0.9;
+        }
+
+        .cursor-companion.hovering .cursor-orbit {
+            animation-duration: 2s;
+        }
+
+        .cursor-companion.hovering .cursor-orbit-glyph {
+            animation-duration: 2s;
+            color: var(--accent);
+        }
+
+        @keyframes ringBreathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes cursorOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes cursorOrbitCounter {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(-360deg); }
+        }
+
+        [data-theme="dark"] .cursor-companion-glow {
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.12), transparent 70%);
+        }
+
+        /* ============================================================
+           Click ripple — nav links & buttons get real click feedback
+           ============================================================ */
+        .nav-link, .mobile-nav-link, .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.28;
+            transform: scale(0);
+            animation: rippleExpand 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes rippleExpand {
+            to { transform: scale(1); opacity: 0; }
+        }
+
+        /* Landing pulse — brief highlight when a nav click lands you
+           on a section, so navigation feels like it "arrived" somewhere */
+        .section-landed {
+            animation: sectionLand 0.9s ease-out;
+        }
+
+        @keyframes sectionLand {
+            0% { text-shadow: 0 0 0 rgba(132, 204, 22, 0); }
+            30% { text-shadow: 0 0 24px rgba(132, 204, 22, 0.55); }
+            100% { text-shadow: 0 0 0 rgba(132, 204, 22, 0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cursor-ring { animation: none; }
+            .cursor-orbit, .cursor-orbit-glyph { animation: none; }
+            .section-landed { animation: none; }
+        }
+
+        /* ============================================================
+           ROUND 2 — bigger, bolder, unmistakably "changed"
+           ============================================================ */
+
+        /* Typewriter role-cycling in hero */
+        .typewriter {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            color: var(--accent);
+            font-weight: 400;
+            animation: caretBlink 0.9s step-end infinite;
+        }
+
+        @keyframes caretBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Floating decorative "code chip" cards behind the hero content */
+        .code-chip {
+            position: absolute;
+            font-family: "Space Mono", "JetBrains Mono", monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.5rem 0.85rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.85;
+            animation: chipFloat 7s ease-in-out infinite;
+        }
+
+        .code-chip-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        .code-chip-1 { top: 12%; left: 6%; animation-delay: 0s; --rot: -6deg; }
+        .code-chip-2 { top: 22%; right: 8%; animation-delay: 1.4s; --rot: 4deg; color: var(--glow); }
+        .code-chip-3 { bottom: 18%; left: 10%; animation-delay: 2.6s; --rot: 3deg; }
+        .code-chip-4 { bottom: 26%; right: 6%; animation-delay: 0.8s; --rot: -4deg; color: var(--accent); }
+
+        @keyframes chipFloat {
+            0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+            50% { transform: translateY(-16px) rotate(var(--rot, 0deg)); }
+        }
+
+        [data-theme="dark"] .code-chip {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 900px) {
+            .code-chip { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .code-chip { animation: none; }
+        }
+
+        /* ============================================================
+           Cursor companion v2 — bigger, brighter, with a spawning
+           code-symbol particle trail. Unmistakable, not subtle.
+           ============================================================ */
+        .cursor-ring {
+            width: 44px;
+            height: 44px;
+            top: -22px;
+            left: -22px;
+            border: 2px solid var(--primary);
+            opacity: 0.75;
+            box-shadow: 0 0 18px rgba(21, 128, 61, 0.35);
+        }
+
+        .cursor-companion.hovering .cursor-ring {
+            width: 68px;
+            height: 68px;
+            top: -34px;
+            left: -34px;
+            border-color: var(--accent);
+            background: rgba(132, 204, 22, 0.14);
+            box-shadow: 0 0 32px rgba(132, 204, 22, 0.5);
+            opacity: 1;
+        }
+
+        .cursor-orbit { top: -30px; left: -30px; width: 60px; height: 60px; }
+
+        .cursor-orbit-glyph {
+            font-size: 14px;
+            text-shadow: 0 0 10px var(--glow);
+        }
+
+        .cursor-companion-glow {
+            width: 240px;
+            height: 240px;
+            top: -120px;
+            left: -120px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.22), transparent 65%);
+        }
+
+        .cursor-particle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--glow);
+            text-shadow: 0 0 10px currentColor;
+            animation: particleDrift 900ms ease-out forwards;
+        }
+
+        @keyframes particleDrift {
+            0% { opacity: 0.95; transform: translate(0, 0) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translate(var(--dx, 0px), -54px) scale(0.6) rotate(var(--rot, 20deg)); }
+        }
+
+        /* ============================================================
+           Custom scrollbar — desktop/pointer devices only. On touch
+           devices this forced a space-reserving bar instead of the
+           normal overlay scrollbar, which pushed the whole page (incl.
+           the "centered" nav) sideways by the scrollbar's width.
+           ============================================================ */
+        @media (hover: hover) and (pointer: fine) {
+            html {
+                scrollbar-width: thin;
+                scrollbar-color: var(--primary) var(--muted);
+            }
+
+            ::-webkit-scrollbar {
+                width: 15px;
+                height: 15px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: var(--muted);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-image: linear-gradient(180deg, var(--glow) 0%, var(--accent) 45%, var(--primary) 100%);
+                border-radius: 20px;
+                border: 3px solid var(--muted);
+                background-clip: padding-box;
+                box-shadow: 0 0 10px rgba(45, 212, 191, 0.45) inset;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background-image: linear-gradient(180deg, var(--accent) 0%, var(--primary) 60%, var(--primary-dark) 100%);
+                background-clip: padding-box;
+            }
+        }
+
+        @media (pointer: coarse) {
+            html { scrollbar-width: none; }
+            ::-webkit-scrollbar { width: 0; height: 0; display: none; }
+        }
+
+        /* ============================================================
+           Punchier hover states
+           ============================================================ */
+        .project-card:hover {
+            box-shadow: 0 24px 70px rgba(21, 128, 61, 0.28);
+        }
+
+        .service-card:hover {
+            box-shadow: 0 18px 50px rgba(132, 204, 22, 0.22);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 12px 32px rgba(21, 128, 61, 0.4);
+        }
+
+        .marquee-item:hover {
+            box-shadow: 0 10px 28px rgba(132, 204, 22, 0.3);
+        }
+
+        /* ============================================================
+           Section wave dividers — smooth curved transitions between
+           the alternating section backgrounds instead of hard edges
+           ============================================================ */
+        :root {
+            --wave-fill-projects: var(--background);
+            --wave-fill-services: var(--muted);
+            --wave-fill-contact: var(--background);
+        }
+
+        .section-wave {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            line-height: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .section-wave svg {
+            width: 100%;
+            height: 56px;
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .section-wave svg { height: 32px; }
+        }
+
+        /* ============================================================
+           Manual circular reveal for the theme toggle — a flat overlay
+           in the new theme's color, clipped to an expanding circle
+           centered on the button. Once it fully covers the screen we
+           swap the real theme underneath and drop the overlay, so the
+           transition is seamless and needs no browser API support.
+           ============================================================ */
+        .theme-reveal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            pointer-events: none;
         }

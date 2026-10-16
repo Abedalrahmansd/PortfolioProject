@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery Manifest Builder (no Node needed)</title>
+<style>
+    :root {
+        --primary: #15803d;
+        --accent: #84cc16;
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --border: #e2e8f0;
+        --text: #0f172a;
+        --muted: #64748b;
+    }
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 1.5rem;
+        line-height: 1.55;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    h1 {
+        font-size: 1.4rem;
+        margin: 0 0 0.25rem;
+        color: var(--primary);
+    }
+    p.sub { color: var(--muted); margin-top: 0; }
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+    .card h2 {
+        font-size: 1rem;
+        margin: 0 0 0.6rem;
+    }
+    .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-right: 0.5rem;
+    }
+    label.picker {
+        display: block;
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        cursor: pointer;
+        color: var(--muted);
+        transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    label.picker:hover { border-color: var(--primary); color: var(--primary); }
+    input[type="file"] { display: none; }
+    #summary {
+        margin-top: 0.9rem;
+        font-size: 0.9rem;
+    }
+    #summary .cat {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: var(--primary);
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        margin: 0.2rem 0.3rem 0 0;
+        font-weight: 600;
+        font-size: 0.82rem;
+    }
+    textarea {
+        width: 100%;
+        min-height: 220px;
+        font-family: "SF Mono", Consolas, monospace;
+        font-size: 0.82rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.9rem;
+        background: #0f172a;
+        color: #86efac;
+        white-space: pre;
+        resize: vertical;
+    }
+    .btn-row { display: flex; gap: 0.6rem; margin-top: 0.8rem; flex-wrap: wrap; }
+    button {
+        appearance: none;
+        border: none;
+        border-radius: 999px;
+        padding: 0.65rem 1.3rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    button:active { transform: scale(0.97); }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; }
+    .btn-outline { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .hint {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-top: 0.5rem;
+    }
+    .toast {
+        position: fixed;
+        bottom: 1.2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--text);
+        color: #fff;
+        padding: 0.6rem 1.1rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    code { background: #f1f5f9; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Gallery Manifest Builder</h1>
+    <p class="sub">Builds <code>images/ssociety-gallery-manifest.js</code> right here in the browser — no Node, no terminal.</p>
+
+    <div class="card">
+        <h2><span class="step-num">1</span>Pick your gallery folder</h2>
+        <label class="picker" for="folderInput">
+            📁 Tap to choose the <code>ssociety-gallery</code> folder<br>
+            <span class="hint" style="display:block;margin-top:0.4rem;">
+                (the one containing your category subfolders — dashboard, timetable, etc.)
+            </span>
+        </label>
+        <input type="file" id="folderInput" webkitdirectory directory multiple>
+        <div id="summary"></div>
+    </div>
+
+    <div class="card" id="outputCard" style="display:none;">
+        <h2><span class="step-num">2</span>Copy the result into your project</h2>
+        <p class="hint">
+            Open <code>images/ssociety-gallery-manifest.js</code> in your code editor, select all, delete it,
+            and paste this in — or just download the file and replace it directly.
+        </p>
+        <textarea id="output" readonly></textarea>
+        <div class="btn-row">
+            <button class="btn-primary" id="copyBtn">Copy to clipboard</button>
+            <button class="btn-outline" id="downloadBtn">Download file</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const IMAGE_EXT = new Set(["jpg","jpeg","png","webp","gif"]);
+const folderInput = document.getElementById("folderInput");
+const summary = document.getElementById("summary");
+const outputCard = document.getElementById("outputCard");
+const output = document.getElementById("output");
+const toast = document.getElementById("toast");
+
+function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+folderInput.addEventListener("change", function() {
+    const files = Array.from(folderInput.files || []);
+    const manifest = {};
+
+    files.forEach(function(file) {
+        const relPath = file.webkitRelativePath || file.name;
+        const parts = relPath.split("/");
+        // Expect: <picked-folder>/<category>/<...maybe more subfolders...>/<file>
+        if (parts.length < 3) return; // not inside a category subfolder
+        const ext = (file.name.split(".").pop() || "").toLowerCase();
+        if (!IMAGE_EXT.has(ext)) return;
+
+        const category = parts[parts.length - 2]; // immediate parent folder = category
+        const publicPath = "images/ssociety-gallery/" + parts.slice(1).join("/");
+
+        if (!manifest[category]) manifest[category] = [];
+        manifest[category].push(publicPath);
+    });
+
+    const categories = Object.keys(manifest).sort();
+    const imageCount = Object.values(manifest).reduce((n, arr) => n + arr.length, 0);
+
+    if (imageCount === 0) {
+        summary.innerHTML = '<p class="hint" style="color:#dc2626;">No images found directly inside category subfolders. Make sure you picked the <code>ssociety-gallery</code> folder itself (the one that CONTAINS dashboard/, timetable/, etc.), not a folder above or below it.</p>';
+        outputCard.style.display = "none";
+        return;
+    }
+
+    const sortedManifest = {};
+    categories.forEach(function(c) { sortedManifest[c] = manifest[c]; });
+
+    summary.innerHTML =
+        '<p class="hint">Found ' + imageCount + ' image(s) across ' + categories.length + ' categor' + (categories.length === 1 ? 'y' : 'ies') + ':</p>' +
+        categories.map(function(c) {
+            return '<span class="cat">' + c + ' · ' + manifest[c].length + '</span>';
+        }).join("");
+
+    const banner =
+        "// AUTO-GENERATED by manifest-builder.html — do not hand-edit.\n" +
+        "// Rebuild any time by reopening manifest-builder.html and re-selecting the folder.\n";
+    const body = "window.SSOCIETY_GALLERY_MANIFEST = " + JSON.stringify(sortedManifest, null, 2) + ";\n";
+    output.value = banner + body;
+    outputCard.style.display = "block";
+});
+
+document.getElementById("copyBtn").addEventListener("click", async function() {
+    try {
+        await navigator.clipboard.writeText(output.value);
+        showToast("Copied — paste it into ssociety-gallery-manifest.js");
+    } catch (e) {
+        output.select();
+        document.execCommand("copy");
+        showToast("Copied");
+    }
+});
+
+document.getElementById("downloadBtn").addEventListener("click", function() {
+    const blob = new Blob([output.value], { type: "text/javascript" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ssociety-gallery-manifest.js";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    showToast("Downloaded — move it into your images/ folder");
+});
+</script>
+</body>
+</html>
