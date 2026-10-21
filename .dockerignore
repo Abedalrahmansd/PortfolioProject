@@ -1,19 +1,12 @@
-# Copy into every app repo. Keeps secrets and junk out of images.
+# Only Caddyfile and site/ go into the image (see Dockerfile). Everything else stays out.
 .git
 .github
-node_modules
-vendor
+.claude
+legacy/
+docs/
+tools/
+*.md
+!site/**/*.md
+*.log
 .env
 .env.*
-*.db
-*.sqlite
-*.sqlite3
-data/
-build/
-.dart_tool/
-__pycache__/
-*.log
-README.md
-# Gallery tooling: kept in the repo, not served
-scripts/
-manifest-builder.html

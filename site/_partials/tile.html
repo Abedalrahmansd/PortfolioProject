@@ -1,0 +1,28 @@
+{{- /* A project card for the home page. include "/_partials/tile.html" FILE WIDE
+  FILE is the project's file name in /content/work; WIDE ("1") gives the large layout. */ -}}
+{{- $f := index .Args 0 -}}{{- $wide := eq (index .Args 1) "1" -}}
+{{- $slug := trimSuffix ".md" $f -}}
+{{- $m := (include (printf "/content/work/%s" $f) | splitFrontMatter).Meta -}}
+<a class="tile {{if $wide}}c-7{{else}}c-5{{end}}" href="/work/{{$slug}}/" style="--tile: {{$m.tint | default "#136F37"}}">
+	<div class="tile__art" style="view-transition-name: art-{{$slug}}">
+		{{- if $m.cover }}
+		<div class="phones">
+			{{- range $cid := $m.cover }}{{ range $sc := $m.screens }}{{ if eq $sc.id $cid }}
+			<div class="phone"><div class="phone__screen">{{include "/_partials/screen.html" $slug $sc "(max-width: 1000px) 40vw, 200px"}}</div></div>
+			{{- end }}{{ end }}{{ end }}
+		</div>
+		{{- else if $m.coverImage }}
+		<div class="tile__placeholder"><img class="tile__cover" src="{{$m.coverImage}}" width="621" height="459" loading="lazy" decoding="async" alt="{{$m.coverAlt}}"></div>
+		{{- else }}
+		<div class="tile__placeholder"><img src="/assets/img/monogram-192.webp" width="96" height="96" alt="" aria-hidden="true"></div>
+		{{- end }}
+	</div>
+	<div class="tile__meta">
+		<div>
+			<h3>{{$m.title}}</h3>
+			<p>{{$m.summary}}</p>
+		</div>
+		<span class="tile__go">Open <span aria-hidden="true">→</span></span>
+	</div>
+	{{- if $m.status }}<span class="badge" data-status="{{$m.status}}">{{if eq $m.status "in-progress"}}In progress{{else if eq $m.status "shipped"}}Shipped{{else}}{{$m.status}}{{end}}{{if $m.version}} · v{{$m.version}}{{end}}</span>{{ end }}
+</a>

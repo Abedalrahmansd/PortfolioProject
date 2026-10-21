@@ -1,0 +1,14 @@
+{{- /* The home page's widget tree. Each node points at an element by id (data-target). */ -}}
+<div class="tree" data-js="tree" role="group" aria-label="This page as a widget tree">
+	<div class="tree__head"><span class="mono muted">Widget tree · this page</span><span class="mono" style="color: var(--insp)">Point at a node</span></div>
+	<button type="button" class="node" data-target="#appbar" aria-pressed="false"><b>Scaffold</b> <i>› AppBar</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#name" aria-pressed="false"><b>Text</b> <i>'Abedalrahman'</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#role" aria-pressed="false"><b>Text</b> <i>role</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#intro" aria-pressed="false"><b>Text</b> <i>intro</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#actions" aria-pressed="false"><b>Row</b> <i>[FilledButton, OutlinedButton]</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#services" aria-pressed="false"><b>Column</b> <i>what I do</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#work" aria-pressed="false"><b>GridView</b> <i>selected work</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#skills" aria-pressed="false"><b>Wrap</b> <i>skills</i></button>
+	<button type="button" class="node" data-depth="1" data-target="#contact-cta" aria-pressed="false"><b>Container</b> <i>contact</i></button>
+	<p class="mono muted" style="padding: 10px 10px 2px; font-size: 12px">Every page can be inspected: press <span class="kbd">Layout</span> in the top bar.</p>
+</div>

@@ -1,0 +1,79 @@
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+{{- $a := (include "/content/about.md" | splitFrontMatter).Meta -}}
+{{include "/_partials/head.html" (printf "About — %s" $s.fullName) "How a self-taught developer from Lebanon ended up building Flutter apps and the backends behind them." "/about/" "about"}}
+{{include "/_partials/header.html" "about"}}
+<main id="main">
+	<section class="wrap" style="padding-block: clamp(40px, 6vw, 80px) clamp(48px, 6vw, 72px)">
+		<div class="grid" style="align-items: end">
+			<div class="c-8" style="display: grid; gap: 22px">
+				<p class="eyebrow">About</p>
+				<h1 class="display" data-w="Text · displayMedium" style="font-size: var(--step-4); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98">{{$a.headline}}</h1>
+				<p class="lead">{{$a.intro}}</p>
+			</div>
+			<dl class="c-4 facts" data-w="Card · facts" style="padding: 22px 24px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line)">
+				<dt>Based in</dt><dd>{{$s.location}}</dd>
+				<dt>Works</dt><dd>Remotely, with teams anywhere</dd>
+				<dt>Speaks</dt><dd>{{$s.languages}}</dd>
+				<dt>Name</dt><dd><span class="ar" lang="ar" dir="rtl">{{$s.nameAr}}</span></dd>
+			</dl>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="path-h">
+		<div class="wrap">
+			<div class="section-head"><h2 id="path-h" class="h-section">How I got here</h2><span class="mono" style="color: var(--insp)">Pick a step to inspect it</span></div>
+			<div class="grid" style="align-items: start">
+				<div class="c-5" data-js="path">
+					<p class="mono" style="font-size: 15px; margin-bottom: 10px"><b style="color: var(--brand)">{{$s.name}}</b>(</p>
+					<ol class="path" data-w="Column · your path">
+						{{- range $i, $c := $a.path }}
+						<li style="--i: {{$i}}">
+							<button type="button" class="chap" id="chap-{{$c.id}}" aria-expanded="{{if $c.now}}true{{else}}false{{end}}" aria-controls="step-{{$c.id}}">
+								<span class="chap__dot" aria-hidden="true"></span>
+								<span><span class="chap__title">{{$c.title}}</span><span class="chap__tools">{{$c.tools}}</span></span>
+								{{- if $c.now }}<span class="badge chap__now" data-status="shipped">now</span>{{ end }}
+							</button>
+						</li>
+						{{- end }}
+					</ol>
+					<p class="mono" style="font-size: 15px; margin-top: 10px">);</p>
+				</div>
+				<div class="c-7">
+					{{- $n := len $a.path -}}
+					{{- range $i, $c := $a.path }}
+					<section class="chapter" id="step-{{$c.id}}" aria-labelledby="chap-{{$c.id}}" {{if not $c.now}}hidden{{end}}>
+						<div style="display: flex; justify-content: space-between; gap: 16px"><span class="mono" style="color: var(--insp)">Step {{add $i 1}} of {{$n}}</span><span class="mono muted">{{$c.tools}}</span></div>
+						<h3>{{$c.title}}</h3>
+						<p>{{$c.body}}</p>
+						{{- if $c.props }}
+						<dl class="props">
+							{{- range $c.props }}<div><dt>{{.k}}</dt><dd>{{.v}}</dd></div>{{ end }}
+						</dl>
+						{{- end }}
+					</section>
+					{{- end }}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="how-h">
+		<div class="wrap grid">
+			<h2 id="how-h" class="h-section c-4">How I work</h2>
+			<div class="c-8 rows" data-w="Column · principles">
+				{{- range $a.principles }}<div><h3>{{.title}}</h3><p class="muted">{{.text}}</p></div>{{ end }}
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap section-head" style="margin-bottom: 0; flex-wrap: wrap; align-items: center">
+			<p class="display" style="font-size: var(--step-3); font-weight: 650; letter-spacing: -0.02em">Want the short version?</p>
+			<div class="hero__cta">
+				<a class="btn btn--primary" href="{{$s.cv}}" download>Download CV (PDF)</a>
+				<a class="btn btn--ghost" href="/contact/">Get in touch</a>
+			</div>
+		</div>
+	</section>
+</main>
+{{include "/_partials/footer.html"}}

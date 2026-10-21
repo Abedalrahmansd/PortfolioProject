@@ -1,0 +1,11 @@
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url><loc>{{$s.domain}}/</loc></url>
+	<url><loc>{{$s.domain}}/work/</loc></url>
+	<url><loc>{{$s.domain}}/about/</loc></url>
+	<url><loc>{{$s.domain}}/contact/</loc></url>
+{{- range $f := listFiles "/content/work" }}{{ if hasSuffix ".md" $f }}{{ $m := (include (printf "/content/work/%s" $f) | splitFrontMatter).Meta }}{{ if not $m.draft }}
+	<url><loc>{{$s.domain}}/work/{{trimSuffix ".md" $f}}/</loc></url>
+{{- end }}{{ end }}{{ end }}
+</urlset>

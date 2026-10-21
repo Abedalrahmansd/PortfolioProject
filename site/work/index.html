@@ -1,0 +1,36 @@
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+{{include "/_partials/head.html" (printf "Work — %s" $s.fullName) "Apps and backends I’ve built with Flutter, Node.js and Laravel, each with the full story: what it does, how it’s built, and where it’s going." "/work/" "work"}}
+{{include "/_partials/header.html" "work"}}
+<main id="main">
+	<section class="wrap" style="padding-block: clamp(40px, 6vw, 80px) clamp(56px, 8vw, 104px)">
+		<p class="eyebrow">Work</p>
+		<h1 class="display" data-w="Text · displayMedium" style="font-size: var(--step-4); font-weight: 700; letter-spacing: -0.035em; margin-top: 12px; max-width: 18ch">Apps I’ve built, and how I built them.</h1>
+		<p class="lead" style="margin-top: 20px">Every project has its own page with the full story. The ones marked in progress are being worked on right now; their pages grow as they do.</p>
+		{{- $files := listFiles "/content/work" -}}
+		<div class="grid" style="margin-top: clamp(32px, 5vw, 56px); align-items: start">
+			<ol class="work-list c-7" data-js="work-list" data-w="ListView · projects">
+				{{- range $i := until 100 }}{{ range $f := $files }}{{ if hasSuffix ".md" $f }}
+				{{- $slug := trimSuffix ".md" $f -}}
+				{{- $m := (include (printf "/content/work/%s" $f) | splitFrontMatter).Meta -}}
+				{{- if and (eq (int $m.order) $i) (not $m.draft) }}
+				{{- $cover := "" -}}{{- $alt := "" -}}
+				{{- if $m.cover }}{{ $cid := index $m.cover 0 }}{{ range $sc := $m.screens }}{{ if eq $sc.id $cid }}{{ $t := index ($sc.themes | default (list "light")) 0 }}{{ $cover = printf "/assets/work/%s/%s-%s-720.webp" $slug $sc.id $t }}{{ $alt = $sc.title }}{{ end }}{{ end }}{{ end }}
+				<li class="work-item">
+					<a href="/work/{{$slug}}/" data-cover="{{$cover}}" data-alt="{{$m.title}}: {{$alt}}" data-tint="{{$m.tint | default "#136F37"}}">
+						<h2 class="display">{{$m.title}}</h2>
+						{{- if $m.status }}<span class="badge" data-status="{{$m.status}}">{{if eq $m.status "in-progress"}}In progress{{else if eq $m.status "shipped"}}Shipped{{else}}{{$m.status}}{{end}}{{if $m.version}} · v{{$m.version}}{{end}}</span>{{ end }}
+						<p>{{$m.summary}}</p>
+						<span class="mono">{{if $m.platforms}}{{join " · " $m.platforms}}{{end}}{{if and $m.platforms $m.stackLine}} — {{end}}{{$m.stackLine}}</span>
+					</a>
+				</li>
+				{{- end }}{{ end }}{{ end }}{{ end }}
+			</ol>
+			<div class="c-5">
+				<figure class="work-preview" data-js="work-preview" aria-hidden="true">
+					<div class="device"><div class="device__screen" style="aspect-ratio: 720 / 1528"><img src="/assets/img/monogram-192.webp" alt=""></div></div>
+				</figure>
+			</div>
+		</div>
+	</section>
+</main>
+{{include "/_partials/footer.html"}}

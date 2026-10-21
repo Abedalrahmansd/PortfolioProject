@@ -1,0 +1,15 @@
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+{{include "/_partials/head.html" (printf "Page not found — %s" $s.fullName) "This page doesn’t exist." "/404.html" "404"}}
+{{include "/_partials/header.html" "404"}}
+<main id="main">
+	<section class="wrap nf">
+		<p class="eyebrow">404</p>
+		<h1 class="display" style="font-size: var(--step-4); font-weight: 700; letter-spacing: -0.04em">This page doesn’t exist.</h1>
+		<pre class="nf__code" aria-label="Error message">Navigator: no route defined for <b>{{.OriginalReq.URL.Path | html}}</b></pre>
+		<div class="hero__cta">
+			<a class="btn btn--primary" href="/">Go to the home page</a>
+			<a class="btn btn--ghost" href="/work/">See my work</a>
+		</div>
+	</section>
+</main>
+{{include "/_partials/footer.html"}}

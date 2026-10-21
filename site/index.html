@@ -1,0 +1,79 @@
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+{{- $h := (include "/content/home.md" | splitFrontMatter).Meta -}}
+{{- $k := (include "/content/skills.md" | splitFrontMatter).Meta -}}
+{{include "/_partials/head.html" (printf "%s — %s" $s.fullName $s.role) "Flutter developer who also builds the backend: Node.js, Laravel, MySQL. Based in Lebanon, working remotely. Projects with real app screens." "/" "home"}}
+{{include "/_partials/header.html" "home"}}
+<main id="main">
+	<section class="hero wrap" aria-labelledby="name">
+		<p class="eyebrow">{{$s.role}} · {{$s.location}} · {{$s.availability}}</p>
+		<h1 id="name" class="hero__name display" data-w="Text · displayLarge" style="--i: 1">{{$s.name}}</h1>
+		<div class="grid hero__grid">
+			<div class="c-7 hero__text">
+				<p id="role" class="hero__role display" data-w="Text · headlineLarge" style="--i: 2">{{$s.role}}.<br><span>{{$s.roleLine}}</span></p>
+				<p id="intro" class="lead" data-w="Text · bodyLarge" style="--i: 3">{{$s.intro}}</p>
+				<div id="actions" class="hero__cta" data-w="Row · spacing 16" style="--i: 4">
+					<a class="btn btn--primary" href="/work/">See my work <span aria-hidden="true">→</span></a>
+					<a class="btn btn--ghost" href="/contact/">Get in touch</a>
+					<span class="link-row"><a href="{{$s.github}}" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><a href="{{$s.linkedin}}" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></span>
+				</div>
+				<details class="tree-toggle">
+					<summary>How this page is built</summary>
+					{{include "/_partials/home-tree.html"}}
+				</details>
+			</div>
+			<div class="c-5">{{include "/_partials/home-tree.html"}}</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="do-h">
+		<div class="wrap grid">
+			<h2 id="do-h" class="h-section c-4">What I do</h2>
+			<div id="services" class="c-8 rows" data-w="Column · CrossAxisAlignment.start" style="--i: 5">
+				{{- range $h.services }}
+				<div><h3>{{.title}}</h3><p class="muted">{{.text}}</p></div>
+				{{- end }}
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="work-h">
+		<div class="wrap">
+			<div class="section-head"><h2 id="work-h" class="h-section">Selected work</h2><a href="/work/">All projects <span aria-hidden="true">→</span></a></div>
+			<div id="work" class="grid tiles" data-w="GridView · each tile is a Hero" style="--i: 6">
+				{{- $files := listFiles "/content/work" -}}
+				{{- $n := 0 -}}
+				{{- range $i := until 100 }}{{ range $f := $files }}{{ if hasSuffix ".md" $f }}
+				{{- $m := (include (printf "/content/work/%s" $f) | splitFrontMatter).Meta -}}
+				{{- if and (eq (int $m.order) $i) $m.featured (not $m.draft) }}
+				{{include "/_partials/tile.html" $f (ternary "1" "0" (eq (mod $n 2) 0))}}
+				{{- $n = add $n 1 -}}
+				{{- end }}{{ end }}{{ end }}{{ end }}
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="skills-h">
+		<div class="wrap grid">
+			<h2 id="skills-h" class="h-section c-4">Skills</h2>
+			<div id="skills" class="c-8 skills" data-w="Wrap · runSpacing 24" style="--i: 7">
+				{{- range $k.groups }}
+				<div><h3>{{.name}}</h3><ul>{{range .items}}<li>{{.}}</li>{{end}}</ul></div>
+				{{- end }}
+				{{- if $k.also }}<p class="skills__also mono">Also familiar with: {{join ", " $k.also}}</p>{{ end }}
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="contact-h">
+		<div class="wrap">
+			<div id="contact-cta" class="cta" data-w="Container · padding 48" style="--i: 8">
+				<h2 id="contact-h">{{$h.contactTitle}}</h2>
+				<div class="hero__cta">
+					<a class="btn btn--primary" href="/contact/">Write to me</a>
+					<a class="btn btn--ghost" href="mailto:{{$s.email}}">{{$s.email}}</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+{{include "/_partials/footer.html"}}

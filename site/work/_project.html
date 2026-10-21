@@ -1,0 +1,146 @@
+{{- /* Project page template. Renders /content/work/<slug>.md at /work/<slug>/.
+  Front matter fields are documented in CLAUDE.md ("Project files"). */ -}}
+{{- $slug := index (splitList "/" .OriginalReq.URL.Path) 2 -}}
+{{- $path := printf "/content/work/%s.md" $slug -}}
+{{- if not (fileExists $path) }}{{ httpError 404 }}{{ end -}}
+{{- $doc := include $path | splitFrontMatter -}}
+{{- $m := $doc.Meta -}}
+{{- if $m.draft }}{{ httpError 404 }}{{ end -}}
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+{{- $og := "" -}}{{- if $m.cover }}{{ $cid := index $m.cover 0 }}{{ range $m.screens }}{{ if eq .id $cid }}{{ $og = printf "/assets/work/%s/%s-%s-720.webp" $slug .id (index (.themes | default (list "light")) 0) }}{{ end }}{{ end }}{{ end -}}
+{{- if $og }}{{include "/_partials/head.html" (printf "%s — %s" $m.title $s.fullName) $m.summary (printf "/work/%s/" $slug) "project" $og}}{{ else }}{{include "/_partials/head.html" (printf "%s — %s" $m.title $s.fullName) $m.summary (printf "/work/%s/" $slug) "project"}}{{ end }}
+{{include "/_partials/header.html" "project"}}
+<main id="main" class="proj" style="--proj-l: {{$m.ink | default "#136F37"}}; --proj-d: {{$m.inkDark | default "#5CCB8A"}}; --tile: {{$m.tint | default "#136F37"}}">
+	<section class="wrap proj-hero" aria-labelledby="title">
+		<p class="crumbs mono"><a href="/work/">Work</a> / {{$m.title}}</p>
+		<div class="grid" style="align-items: end; row-gap: 28px">
+			<div class="c-8">
+				<h1 id="title" class="proj-title display" data-w="Text · displayLarge">{{$m.title}}</h1>
+				<p class="proj-lede">{{$m.tagline | default $m.summary}}</p>
+				{{- if $m.status }}
+				<p style="margin-top: 18px"><span class="badge" data-status="{{$m.status}}">{{if eq $m.status "in-progress"}}In progress{{else if eq $m.status "shipped"}}Shipped{{else}}{{$m.status}}{{end}}{{if $m.version}} · v{{$m.version}}{{end}}</span>{{if $m.statusNote}} <span class="muted" style="margin-left: 8px">{{$m.statusNote}}</span>{{end}}</p>
+				{{- end }}
+			</div>
+			<dl class="c-4 facts" data-w="Card · facts">
+				{{- if $m.role }}<dt>Role</dt><dd>{{$m.role}}</dd>{{ end }}
+				{{- if $m.period }}<dt>When</dt><dd>{{$m.period}}</dd>{{ end }}
+				{{- if $m.platforms }}<dt>Runs on</dt><dd>{{join ", " $m.platforms}}</dd>{{ end }}
+				{{- if $m.stackLine }}<dt>Stack</dt><dd>{{$m.stackLine}}</dd>{{ end }}
+				{{- range $m.links }}<dt>{{.label}}</dt><dd><a href="{{.url}}" rel="noopener" style="color: var(--proj)">{{.text}} <span aria-hidden="true">↗</span></a></dd>{{ end }}
+			</dl>
+		</div>
+		{{- if $m.cover }}
+		<div class="stage" style="view-transition-name: art-{{$slug}}">
+			<div class="phones phones--big">
+				{{- range $cid := $m.cover }}{{ range $sc := $m.screens }}{{ if eq $sc.id $cid }}
+				<div class="phone"><div class="phone__screen">{{include "/_partials/screen.html" $slug $sc "(max-width: 1000px) 40vw, 260px" "eager"}}</div></div>
+				{{- end }}{{ end }}{{ end }}
+			</div>
+		</div>
+		{{- else if $m.coverImage }}
+		<div class="stage stage--image" style="view-transition-name: art-{{$slug}}"><img src="{{$m.coverImage}}" width="621" height="459" alt="{{$m.coverAlt}}"></div>
+		{{- end }}
+	</section>
+
+	<div class="wrap grid" style="padding-block: clamp(56px, 8vw, 96px); align-items: start">
+		<nav class="c-3 toc" data-js="toc" aria-label="On this page">
+			<a href="#overview">Overview</a>
+			{{- if $m.features }}<a href="#features">Features</a>{{ end }}
+			{{- if $m.screens }}<a href="#screens">Screens</a>{{ end }}
+			{{- if $m.layers }}<a href="#built">How it’s built</a>{{ end }}
+			{{- if $m.next }}<a href="#next">What’s next</a>{{ end }}
+		</nav>
+		<div class="c-9" style="display: grid; gap: clamp(64px, 8vw, 104px)">
+			<section id="overview" aria-labelledby="ov-h">
+				<h2 id="ov-h" class="h-section">Overview</h2>
+				<div class="prose" style="margin-top: 20px">{{markdown $doc.Body}}</div>
+			</section>
+
+			{{- if $m.features }}
+			<section id="features" aria-labelledby="ft-h">
+				<h2 id="ft-h" class="h-section">Features</h2>
+				<div class="features" style="margin-top: 24px" data-w="GridView · features">
+					{{- range $m.features }}
+					<div class="feature">
+						<h3>{{.title}}{{if and .state (ne .state "shipped")}} <span class="badge" data-status="in-progress">{{if eq .state "in-progress"}}in progress{{else}}{{.state}}{{end}}</span>{{end}}</h3>
+						<p>{{.text}}</p>
+					</div>
+					{{- end }}
+				</div>
+			</section>
+			{{- end }}
+
+			{{- if $m.screens }}
+			{{- $groups := list -}}{{- range $m.screens }}{{ $g := .group | default "Screens" }}{{ if not (has $g $groups) }}{{ $groups = append $groups $g }}{{ end }}{{ end -}}
+			{{- $first := index $m.screens 0 -}}
+			<section id="screens" aria-labelledby="sc-h" data-js="explorer">
+				<div class="section-head" style="flex-wrap: wrap">
+					<h2 id="sc-h" class="h-section">Screens</h2>
+					<div style="display: flex; align-items: center; gap: 12px"><span class="mono muted">App theme</span>
+						<div class="seg" role="group" aria-label="App theme"><button type="button" data-theme-btn="light" aria-pressed="true">Light</button><button type="button" data-theme-btn="dark" aria-pressed="false">Dark</button></div>
+					</div>
+				</div>
+				{{- if $m.screensNote }}<p class="mono muted screens-note">{{$m.screensNote}}</p>{{ end }}
+				<div class="grid explorer">
+					<div class="c-3 screens" role="group" aria-label="Choose a screen">
+						{{- range $g := $groups }}
+						<h3>{{$g}}</h3>
+						{{- range $sc := $m.screens }}{{ if eq ($sc.group | default "Screens") $g }}
+						{{- $t := $sc.themes | default (list "light") -}}
+						<button type="button" class="scr" aria-pressed="{{if eq $sc.id $first.id}}true{{else}}false{{end}}" data-title="{{$sc.title}}" data-caption="{{$sc.caption}}"{{if has "light" $t}} data-light="/assets/work/{{$slug}}/{{$sc.id}}-light-720.webp"{{end}}{{if has "dark" $t}} data-dark="/assets/work/{{$slug}}/{{$sc.id}}-dark-720.webp"{{end}}>{{$sc.title}}</button>
+						{{- end }}{{ end }}
+						{{- end }}
+					</div>
+					<div class="c-5 explorer__stage">
+						{{- $ft := index ($first.themes | default (list "light")) 0 -}}
+						<figure class="device" style="margin: 0"><div class="device__screen" style="aspect-ratio: 720 / 1528"><img data-js="screen-img" src="/assets/work/{{$slug}}/{{$first.id}}-{{$ft}}-720.webp" width="720" height="1528" alt="{{$first.title}} screen" loading="lazy"></div></figure>
+					</div>
+					<div class="c-4 explorer__info" aria-live="polite">
+						<h3 data-js="screen-title">{{$first.title}}</h3>
+						<p class="muted" data-js="screen-caption">{{$first.caption}}</p>
+						<p class="mono muted" data-js="screen-note"></p>
+					</div>
+				</div>
+			</section>
+			{{- end }}
+
+			{{- if $m.layers }}
+			<section id="built" aria-labelledby="bt-h">
+				<h2 id="bt-h" class="h-section">How it’s built</h2>
+				<div class="layers" style="margin-top: 24px" data-w="Row · layers">
+					{{- range $m.layers }}<div class="layer"><span class="mono">{{.label}}</span><strong>{{.title}}</strong><p>{{.text}}</p></div>{{ end }}
+				</div>
+			</section>
+			{{- end }}
+
+			{{- if $m.next }}
+			<section id="next" aria-labelledby="nx-h">
+				<h2 id="nx-h" class="h-section">What’s next</h2>
+				<p class="muted" style="margin-top: 12px">This project is still being built. This list changes as it does.</p>
+				<ul class="rows" style="list-style: none; margin-top: 24px">
+					{{- range $m.next }}<li><h3>{{.title}}</h3><p class="muted">{{.text}}</p></li>{{ end }}
+				</ul>
+			</section>
+			{{- end }}
+		</div>
+	</div>
+
+	{{- /* Next project: the next one by order, wrapping round to the first. */ -}}
+	{{- $files := listFiles "/content/work" -}}
+	{{- $next := "" -}}{{- $nextM := dict -}}{{- $firstF := "" -}}{{- $firstM := dict -}}{{- $best := 100000 -}}{{- $low := 100000 -}}
+	{{- range $f := $files }}{{ if and (hasSuffix ".md" $f) (ne (trimSuffix ".md" $f) $slug) }}{{ $x := (include (printf "/content/work/%s" $f) | splitFrontMatter).Meta }}{{ if not $x.draft }}
+	{{- $o := int $x.order -}}
+	{{- if and (gt $o (int $m.order)) (lt $o $best) }}{{ $best = $o }}{{ $next = $f }}{{ $nextM = $x }}{{ end -}}
+	{{- if lt $o $low }}{{ $low = $o }}{{ $firstF = $f }}{{ $firstM = $x }}{{ end -}}
+	{{- end }}{{ end }}{{ end -}}
+	{{- if not $next }}{{ $next = $firstF }}{{ $nextM = $firstM }}{{ end -}}
+	{{- if $next }}
+	<section class="wrap" style="padding-bottom: clamp(64px, 8vw, 104px)">
+		<a class="next-proj" href="/work/{{trimSuffix ".md" $next}}/" style="--next: {{$nextM.tint | default "#136F37"}}">
+			<span style="display: grid; gap: 6px"><span class="mono muted">Next project</span><span class="display">{{$nextM.title}}</span></span>
+			<span style="font-weight: 650">Open <span aria-hidden="true">→</span></span>
+		</a>
+	</section>
+	{{- end }}
+</main>
+{{include "/_partials/footer.html"}}

@@ -1,0 +1,12 @@
+{{- /* One app screenshot, in whichever themes exist, following the site theme.
+  include "/_partials/screen.html" SLUG SCREEN SIZES [EAGER]
+  SCREEN is an entry from a project's `screens:` list (id, title, themes).
+  Files: /assets/work/<slug>/<id>-<theme>-360.webp and -720.webp (tools/screens.py). */ -}}
+{{- $slug := index .Args 0 -}}{{- $sc := index .Args 1 -}}{{- $sizes := index .Args 2 -}}
+{{- $load := "lazy" -}}{{- if gt (len .Args) 3 -}}{{- $load = "eager" -}}{{- end -}}
+{{- $themes := $sc.themes | default (list "light") -}}
+{{- $both := and (has "light" $themes) (has "dark" $themes) -}}
+{{- range $t := $themes -}}
+{{- $base := printf "/assets/work/%s/%s-%s" $slug $sc.id $t -}}
+<img {{if $both}}class="only-{{$t}}" {{end}}src="{{$base}}-720.webp" srcset="{{$base}}-360.webp 360w, {{$base}}-720.webp 720w" sizes="{{$sizes}}" width="720" height="1528" loading="{{$load}}" decoding="async" alt="{{$sc.title}}{{if $both}} ({{$t}} theme){{end}}">
+{{- end -}}

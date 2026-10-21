@@ -1,0 +1,43 @@
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+{{include "/_partials/head.html" (printf "Contact — %s" $s.fullName) "Email is fastest. Hiring for a Flutter role, or have an app to build? Here’s how to reach me." "/contact/" "contact"}}
+{{include "/_partials/header.html" "contact"}}
+<main id="main" data-js="contact">
+	<section class="wrap" style="padding-block: clamp(40px, 6vw, 80px) clamp(56px, 8vw, 104px)">
+		<p class="eyebrow">Contact</p>
+		<h1 class="display" data-w="Text · displayMedium" style="font-size: var(--step-4); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98; margin-top: 12px; max-width: 16ch">Let’s talk about your app, or your team.</h1>
+		<div class="grid" style="margin-top: clamp(32px, 5vw, 56px); align-items: start">
+			<div class="c-6" style="display: grid; gap: 22px; align-content: start" data-w="Column · direct">
+				<p class="lead">Email is fastest. I usually reply within one or two working days.</p>
+				<a class="email-big" href="mailto:{{$s.email}}">{{$s.email}}</a>
+				<div class="hero__cta">
+					<button type="button" class="btn btn--ghost" data-copy="{{$s.email}}">Copy email</button>
+					<a class="btn btn--ghost" href="https://wa.me/{{$s.whatsapp}}" rel="noopener">WhatsApp <span aria-hidden="true">↗</span></a>
+				</div>
+				<p class="mono muted clock" data-js="clock" data-tz="{{$s.timezone}}">Based in {{$s.location}} (UTC+2, UTC+3 in summer).</p>
+				<dl class="channels">
+					<dt>Phone</dt><dd><a href="tel:{{$s.phone | replace " " ""}}">{{$s.phone}}</a></dd>
+					<dt>Code</dt><dd><a href="{{$s.github}}" rel="noopener">GitHub <span aria-hidden="true">↗</span></a></dd>
+					<dt>Profile</dt><dd><a href="{{$s.linkedin}}" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></dd>
+					<dt>CV</dt><dd><a href="{{$s.cv}}" download>Download (PDF)</a></dd>
+				</dl>
+			</div>
+			<form class="c-6 form" data-mailto="{{$s.email}}" action="mailto:{{$s.email}}" method="post" enctype="text/plain" data-w="Form · writes an email">
+				<fieldset>
+					<legend>What’s this about?</legend>
+					<div class="chips">
+						<label class="chip"><input type="radio" name="reason" value="Job opportunity" checked><span>Job opportunity</span></label>
+						<label class="chip"><input type="radio" name="reason" value="Freelance project"><span>Freelance project</span></label>
+						<label class="chip"><input type="radio" name="reason" value="Just saying hi"><span>Just saying hi</span></label>
+					</div>
+				</fieldset>
+				<div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
+				<div class="field"><label for="f-email">Your email <span class="muted">(so I can reply)</span></label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"></div>
+				<div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" rows="6" required></textarea></div>
+				<button type="submit" class="btn btn--primary" style="justify-self: start">Write the email</button>
+				<p class="mono muted" style="margin: 0">This opens your own email app with the message ready. Nothing is stored here.</p>
+				<p class="form-status" data-js="form-status" role="status"></p>
+			</form>
+		</div>
+	</section>
+</main>
+{{include "/_partials/footer.html"}}

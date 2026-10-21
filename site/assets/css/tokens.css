@@ -1,0 +1,82 @@
+/* Design tokens. The only place colours, fonts, sizes and timings are defined.
+   Light is the default; dark comes from the visitor's system setting or the theme
+   button (theme-init.js sets data-theme on <html> before anything paints).
+   Every text/background pair below meets WCAG AA (4.5:1) in both themes. */
+
+@font-face { font-family: "Funnel Display"; src: url("/assets/fonts/funnel-display.woff2") format("woff2-variations"), url("/assets/fonts/funnel-display.woff2") format("woff2"); font-weight: 300 800; font-display: swap; }
+@font-face { font-family: "Funnel Sans"; src: url("/assets/fonts/funnel-sans.woff2") format("woff2-variations"), url("/assets/fonts/funnel-sans.woff2") format("woff2"); font-weight: 300 800; font-display: swap; }
+@font-face { font-family: "Spline Sans Mono"; src: url("/assets/fonts/spline-sans-mono.woff2") format("woff2-variations"), url("/assets/fonts/spline-sans-mono.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Plex Arabic Name"; src: url("/assets/fonts/plex-arabic-name.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0600-06FF, U+0020; }
+/* Metric-matched fallbacks so the swap doesn't shift the layout. */
+@font-face { font-family: "Funnel Fallback"; src: local("Arial"); size-adjust: 97%; ascent-override: 98%; descent-override: 24%; }
+
+:root {
+	color-scheme: light;
+	--bg: #F4F5F2;
+	--surface: #FFFFFF;
+	--surface-2: #E9ECE7;
+	--ink: #111412;
+	--muted: #4B524D;
+	--line: #D7DBD5;
+	--line-strong: #7E8780;
+	--brand: #136F37;
+	--on-brand: #FFFFFF;
+	--insp: #1A62D6;
+	--on-insp: #FFFFFF;
+	--insp-wash: rgb(26 98 214 / .07);
+	--focus: #1A62D6;
+	--shadow: 0 1px 2px rgb(17 20 18 / .08), 0 24px 48px -24px rgb(17 20 18 / .28);
+
+	--font-display: "Funnel Display", "Funnel Fallback", Arial, sans-serif;
+	--font-body: "Funnel Sans", "Funnel Fallback", Arial, sans-serif;
+	--font-mono: "Spline Sans Mono", ui-monospace, "Cascadia Mono", Menlo, monospace;
+	--font-ar: "Plex Arabic Name", "IBM Plex Sans Arabic", "Noto Sans Arabic", Tahoma, sans-serif;
+
+	--step--1: 0.8125rem;                               /* mono labels */
+	--step-0: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);  /* body */
+	--step-1: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+	--step-2: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+	--step-3: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+	--step-4: clamp(2.25rem, 1.5rem + 3.4vw, 4.25rem);
+	--step-hero: clamp(3.25rem, 0.8rem + 10.4vw, 10.5rem);
+
+	--radius-sm: 8px;
+	--radius: 14px;
+	--radius-lg: 22px;
+	--gutter: clamp(16px, 4vw, 48px);
+	--max: 1240px;
+
+	--ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+	--dur-fast: 160ms;
+	--dur: 280ms;
+	--dur-slow: 700ms;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--bg: #0D100E;
+	--surface: #151917;
+	--surface-2: #1D2220;
+	--ink: #E9EDE9;
+	--muted: #A3ABA5;
+	--line: #2A302C;
+	--line-strong: #6B756E;
+	--brand: #5CCB8A;
+	--on-brand: #06210F;
+	--insp: #6EA8FF;
+	--on-insp: #06122B;
+	--insp-wash: rgb(110 168 255 / .1);
+	--focus: #6EA8FF;
+	--shadow: 0 0 0 1px rgb(255 255 255 / .05), 0 30px 60px -24px rgb(0 0 0 / .7);
+}
+
+/* Without JavaScript, follow the system setting. */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme]) {
+		color-scheme: dark;
+		--bg: #0D100E; --surface: #151917; --surface-2: #1D2220; --ink: #E9EDE9; --muted: #A3ABA5;
+		--line: #2A302C; --line-strong: #6B756E; --brand: #5CCB8A; --on-brand: #06210F;
+		--insp: #6EA8FF; --on-insp: #06122B; --insp-wash: rgb(110 168 255 / .1); --focus: #6EA8FF;
+		--shadow: 0 0 0 1px rgb(255 255 255 / .05), 0 30px 60px -24px rgb(0 0 0 / .7);
+	}
+}

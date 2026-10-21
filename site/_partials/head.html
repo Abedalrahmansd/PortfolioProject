@@ -1,0 +1,38 @@
+{{- /* The <head> of every page.
+  include "/_partials/head.html" TITLE DESCRIPTION PATH PAGE [OG_IMAGE]
+  PATH is the canonical path ("/", "/about/", "/work/ssociety/"); PAGE names the page
+  for the nav and page-specific styles (home, work, project, about, contact, 404). */ -}}
+{{- $s := (include "/content/site.md" | splitFrontMatter).Meta -}}
+{{- $v := "dev" -}}{{- if fileExists "/_partials/version.txt" -}}{{- $v = (include "/_partials/version.txt" | trim) -}}{{- end -}}
+{{- $og := "/assets/img/og.png" -}}{{- if gt (len .Args) 4 -}}{{- $og = index .Args 4 -}}{{- end -}}
+<!doctype html>
+<html lang="en" data-page="{{index .Args 3}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{index .Args 0}}</title>
+<meta name="description" content="{{index .Args 1}}">
+<link rel="canonical" href="{{$s.domain}}{{index .Args 2}}">
+<meta name="author" content="{{$s.fullName}}">
+<meta name="theme-color" content="#F4F5F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D100E" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{$s.name}} — {{$s.role}}">
+<meta property="og:title" content="{{index .Args 0}}">
+<meta property="og:description" content="{{index .Args 1}}">
+<meta property="og:url" content="{{$s.domain}}{{index .Args 2}}">
+<meta property="og:image" content="{{$s.domain}}{{$og}}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/img/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/funnel-display.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/funnel-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/tokens.css?v={{$v}}">
+<link rel="stylesheet" href="/assets/css/site.css?v={{$v}}">
+<script src="/assets/js/theme-init.js?v={{$v}}"></script>
+<script type="module" src="/assets/js/main.js?v={{$v}}"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"{{$s.fullName}}","alternateName":"{{$s.nameAr}}","jobTitle":"{{$s.role}}","url":"{{$s.domain}}/","email":"mailto:{{$s.email}}","address":{"@type":"PostalAddress","addressCountry":"LB"},"sameAs":["{{$s.github}}","{{$s.linkedin}}"],"knowsAbout":["Flutter","Dart","Node.js","Laravel","MySQL"]}</script>
+<meta name="color-scheme" content="light dark">
+</head>
