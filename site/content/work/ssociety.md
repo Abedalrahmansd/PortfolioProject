@@ -10,7 +10,6 @@ statusNote: 3.4 is out. 3.5 to 3.8 are planned.
 tagline: Your class in one app. The schedule, the chat, the files, and an AI tutor that helps without doing the homework.
 summary: A class app for school students. Shared schedule, class chat, files and an AI tutor, in English and Arabic. Flutter app, Node.js API.
 role: Design, Flutter app and Node.js API
-period: 2024 to now
 platforms: [Android, Web, Windows]
 stackLine: Flutter, GetX, Node.js, Express, Socket.io, MySQL, Gemini
 ink: "#1660C9"
@@ -101,7 +100,7 @@ layers:
     text: One access check decides who can read and post in every kind of chat room.
   - label: API
     title: Node.js and Express 5
-    text: Over 130 REST endpoints, Joi validation, JWT sessions that can be revoked, and 200 automated tests.
+    text: Over 140 REST endpoints, Joi validation, JWT sessions that can be revoked, and 200 automated tests.
   - label: Data and files
     title: MySQL and S3 storage
     text: Sequelize on MySQL 8.4. Uploads go to self-hosted S3-compatible storage, with photos re-encoded to WebP.
@@ -141,5 +140,5 @@ Version 3.0 redesigned the whole app, in light and dark, English and Arabic. Sin
 ## By the numbers
 
 - 1,465 strings, each in English and Arabic
-- Over 130 API endpoints, covered by 200 API tests
+- Over 140 API endpoints, covered by 200 API tests
 - 116 tests in the app
